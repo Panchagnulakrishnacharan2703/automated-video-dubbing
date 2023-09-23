@@ -1,0 +1,28 @@
+* Automated Video Dubbing
+A software suite for dubbing an English video into various Indic languages.
+
+* Getting Started
+** Assumptions
+TODO What do I assume the user knows how to do? Virtualenvs, add links?
+
+** Environment Setup 
+TODO pyenv, commands at the beginning, as well as installation of ffmpeg, too.
+
+** Models and Python Dependencies Installation 
+TODO The multi-threaded download script (download-data.py!)
+
+TODO This line too! In a script!
+python3 -c "import urduhack; urduhack.download()"
+python3 -c "import nltk; nltk.download('punkt')"
+
+TODO Warning about the download size
+
+* Usage
+TODO
+
+* Acknowledgments
+We utilize models and code from the wonderful [[https://github.com/ai4bharat/][ai4bharat]] project.  
+TOOD: Art for icons
+
+* Resources
+TODO: quip about adventuring: "Carry on, and create, brave adventurer!" or something like that.
