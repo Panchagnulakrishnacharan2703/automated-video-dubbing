@@ -16,6 +16,24 @@ model_types = {
     "fairseq": "fairseq"
 }
 
+
+iso_flores = {
+    "as": "asm_Beng",
+    "bn": "ben_Beng",
+    "brx": "brx_Deva",
+    "gu": "guj_Gujr",
+    "hi": "hin_Deva",
+    "kn": "kan_Knda",
+    "ml": "mal_Mlym",
+    "mni": "mni_Mtei",
+    "mr": "mar_Deva",
+    "or": "ory_Orya",
+    "pa": "pan_Guru",
+    "ta": "tam_Taml",
+    "te": "tel_Telu"
+}
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert text from English to output language.")
     parser.add_argument("--input-file",
@@ -46,7 +64,7 @@ if __name__ == "__main__":
         para = file.readlines()
 
     # TODO: there is translate paragraphs, too! Could use that?
-    result = model.translate_paragraph(para[0], "eng_Latn", args.target)
+    result = model.translate_paragraph(para[0], "eng_Latn", iso_flores[args.target])
 
     if args.output_file:
         try:

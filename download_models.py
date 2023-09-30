@@ -36,7 +36,7 @@ def download_file_and_extract(url, output_dir, task_id=0):
 
 
 tts_base_url = Template("https://github.com/AI4Bharat/Indic-TTS/releases/download/v1-checkpoints-release/$lang.zip")
-tts_langs = ["as", "bn", "brx", "en+hi", "en", "gu", "hi", "kn", "ml", "mni", "mr", "or", "pa", "raj", "ta", "te"]
+tts_langs = ["as", "bn", "brx", "en+hi", "en", "gu", "hi", "kn", "ml", "mni", "mr", "or", "pa", "ta", "te"]
 output_tts_base_dir = os.path.join(os.getcwd(), "models/v1/")
 
 

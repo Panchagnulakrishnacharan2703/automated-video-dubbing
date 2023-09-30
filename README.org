@@ -1,28 +1,102 @@
 * Automated Video Dubbing
-A software suite for dubbing an English video into various Indic languages.
+A software suite for dubbing an English video into various Indic languages. Built with narrated videos in mind.
+The software currently supports dubbing into the following languages:
 
-* Getting Started
-** Assumptions
-TODO What do I assume the user knows how to do? Virtualenvs, add links?
+| Language  | Language Code |
+|-----------+---------------|
+| Assamese  | as            |
+| Bengali   | bn            |
+| Bodo      | brx           |
+| English   | en            |
+| Gujarati  | gu            |
+| Hindi     | hi            |
+| Kannada   | kn            |
+| Malayalam | ml            |
+| Manipuri  | mni           |
+| Marathi   | mr            |
+| Odia      | or            |
+| Punjabi   | pa            |
+| Tamil     | ta            |
+| Telugu    | te            |
 
-** Environment Setup 
-TODO pyenv, commands at the beginning, as well as installation of ffmpeg, too.
+* Setting Stuff Up
+** Prerequisites
+You have [[https://github.com/pyenv/pyenv][pyenv]] installed and setup on your system. If you're on Windows, use [[https://github.com/pyenv-win/pyenv-win][pyenv-win]]. Install [[https://ffmpeg.org/][ffmpeg]]. Both applications are visible on your system PATH.
+
+** Obtaining the Code
+#+BEGIN_SRC bash
+  git clone https://github.com/ru2saig/automated-video-dubbing
+  cd automated-video-dubbing
+#+END_SRC
+
+The following commands henceforth shall assume you're running them in the root of the project directory.
 
 ** Models and Python Dependencies Installation 
-TODO The multi-threaded download script (download-data.py!)
 
-TODO This line too! In a script!
-python3 -c "import urduhack; urduhack.download()"
-python3 -c "import nltk; nltk.download('punkt')"
+Using Python 3.10.x is recommended. Doing all the python dependency installation in a virtual environment is more recommended.
+We will use pyenv to obtain Python 3.10.13, and carry out the dependency installation and running of the scripts in there:
 
-TODO Warning about the download size
+#+BEGIN_SRC bash
+  pyenv install 3.10.13 # any python 3.10.x should be fine, 13 is just my lucky number
+  pyenv virtualenv 3.10.13 dubvenv
+  pyenv activate dubvenv
+#+END_SRC
+
+Now, download all the python libraries we'll need and library data:
+#+BEGIN_SRC bash
+  pip install -r requirments.txt
+  python3 -c "import urduhack; urduhack.download()"
+  python3 -c "import nltk; nltk.download('punkt')"
+#+END_SRC
+
+That will take quite some time depending on your internet connection. After that's done, download the models, using the download_models.py script provided. A warning to those on metered connections: the total download is around 35 Gb.
+
+#+BEGIN_SRC bash
+  python download_models.py # this will take quite some time, depending on your internet 
+#+END_SRC
+
+Close to an eternity later, you should have everything downloaded, extracted and ready to use!
 
 * Usage
+The workflow goes like this: Audio Extraction -> asr.py -> nmt.py -> tts.py -> Audio Merging. After merging, you will have the dubbed video. Here are the steps for each of the process shown above:
+
+** Audio Extraction
+#+BEGIN_SRC bash
+  ffmpeg -i /path/to/english/video/<videofile> -map 0:a -acodec copy res/path/to/audio/save/location/<audiofile>
+#+END_SRC
+
+** ASR
+#+BEGIN_SRC bash
+  python asr.py --input res/path/to/english/audio/<audiofile> --output res/path/to/english/transcript/<transcript_filename>
+#+END_SRC
+
+** NMT
+#+BEGIN_SRC bash
+  python nmt.py --input-file res/path/to/english/transcript/<transcript_filename> --output res/path/to/language/transcript/<lang_transcript_filename> --target <language_code> --model <ct2-int8,ct2-fp16,fairseq> --model-dir models/en-indic-preprint/
+#+END_SRC
+
+The language codes are the same as what was shown in the table in the beginning.
+
+** TTS
+#+BEGIN_SRC bash
+  python tts.py --input res/path/to/language/transript/<transcript_filename> --lang <language_code> --output res/path/to/audio/file/<filename>.wav
+#+END_SRC
+
+** Merging Audio
+#+BEGIN_SRC bash
+  ffmpeg -i /path/to/english/video/<videofile> -i res/path/to/audio/file/<filename>.wav -filter_complex " [1:0] apad " -shortest res/path/to/dubbed/output/<dubbed_videofile>  
+#+END_SRC
+
+* Contributing
 TODO
 
-* Acknowledgments
-We utilize models and code from the wonderful [[https://github.com/ai4bharat/][ai4bharat]] project.  
-TOOD: Art for icons
+* Acknowledgements
+We utilize models and some code from the wonderful [[https://github.com/ai4bharat/][ai4bharat]] project.
 
 * Resources
-TODO: quip about adventuring: "Carry on, and create, brave adventurer!" or something like that.
+Go forth, and create something great, ya swashbuckler!
+
+- https://github.com/AI4Bharat/indicnlp_catalog
+- https://github.com/openai/whisper
+- https://github.com/ai4bharat/IndicTrans2
+- https://github.com/AI4Bharat/Indic-TTS
