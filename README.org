@@ -88,7 +88,7 @@ The language codes are the same as what was shown in the table in the beginning.
 #+END_SRC
 
 * Contributing
-A group project done by me and my friends-namely Krishna charan([[https://github.com/Panchagnulakrishnacharan2703]]), Aditya, Bhargavi, Santosh, Jhashank, Nipun
+A group project done by me and my friends-Nidish([[https://github.com/ru2saig]]) Aditya, Bhargavi, Santosh, Jhashank, Nipun
 
 * Acknowledgements
 We utilize models and some code from the wonderful [[https://github.com/ai4bharat/][ai4bharat]] project.
